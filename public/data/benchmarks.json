@@ -1,0 +1,50 @@
+{
+  "hardware": {
+    "primary": {
+      "name": "AMD Radeon RX 9060 XT",
+      "vram": "16 GB GDDR6",
+      "arch": "RDNA 4",
+      "backend": "ROCm 7.x / Vulkan"
+    },
+    "comparison": [
+      { "name": "NVIDIA RTX 4060 Ti 16GB", "arch": "Ada Lovelace" },
+      { "name": "NVIDIA RTX 3060 12GB", "arch": "Ampere" }
+    ]
+  },
+  "benchmarks": [
+    {
+      "model": "Llama-3.1-8B",
+      "results": {
+        "FP16":       { "tokensPerSec": 28,  "vramGB": 15.2, "ttftMs": 320 },
+        "GGUF_Q8_0":  { "tokensPerSec": 52,  "vramGB": 8.6,  "ttftMs": 180 },
+        "GGUF_Q4_K_M":{ "tokensPerSec": 78,  "vramGB": 5.1,  "ttftMs": 95  },
+        "EXL2_4bit":  { "tokensPerSec": 85,  "vramGB": 5.4,  "ttftMs": 88  }
+      }
+    },
+    {
+      "model": "Mistral-7B-v0.3",
+      "results": {
+        "FP16":       { "tokensPerSec": 32,  "vramGB": 14.1, "ttftMs": 290 },
+        "GGUF_Q8_0":  { "tokensPerSec": 58,  "vramGB": 7.8,  "ttftMs": 160 },
+        "GGUF_Q4_K_M":{ "tokensPerSec": 84,  "vramGB": 4.6,  "ttftMs": 82  },
+        "EXL2_4bit":  { "tokensPerSec": 91,  "vramGB": 4.9,  "ttftMs": 75  }
+      }
+    },
+    {
+      "model": "Phi-3-mini-4k",
+      "results": {
+        "FP16":       { "tokensPerSec": 45,  "vramGB": 7.6,  "ttftMs": 150 },
+        "GGUF_Q8_0":  { "tokensPerSec": 72,  "vramGB": 4.2,  "ttftMs": 85  },
+        "GGUF_Q4_K_M":{ "tokensPerSec": 105, "vramGB": 2.8,  "ttftMs": 52  }
+      }
+    },
+    {
+      "model": "Qwen2-7B",
+      "results": {
+        "FP16":       { "tokensPerSec": 30,  "vramGB": 14.8, "ttftMs": 310 },
+        "GGUF_Q8_0":  { "tokensPerSec": 54,  "vramGB": 8.2,  "ttftMs": 170 },
+        "GGUF_Q4_K_M":{ "tokensPerSec": 80,  "vramGB": 4.9,  "ttftMs": 90  }
+      }
+    }
+  ]
+}

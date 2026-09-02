@@ -1,0 +1,23 @@
+---
+import BenchmarkViewer from '../react/BenchmarkViewer';
+import { Cpu } from '@lucide/astro';
+---
+
+<section id="benchmarks" class="py-24 bg-bg-secondary/20 relative">
+  <!-- Decorative top border -->
+  <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-purple/30 to-transparent"></div>
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-text-primary flex items-center gap-2">
+        <Cpu class="w-8 h-8 text-accent-purple" />
+        <span>Local AI Benchmarks</span>
+      </h2>
+      <p class="text-text-secondary mt-2 max-w-2xl">
+        Rendimiento de inferencia local en modelos open-source evaluado en mi laboratorio de hardware principal.
+      </p>
+    </div>
+    
+    <BenchmarkViewer client:visible />
+  </div>
+</section>

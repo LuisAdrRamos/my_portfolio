@@ -1,0 +1,92 @@
+---
+import { ExternalLink, ArrowRight } from '@lucide/astro';
+import Github from '../icons/Github.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, category, technologies, githubUrl, demoUrl, metrics } = project.data;
+
+const categoryColors = {
+  'backend': 'text-accent-purple border-accent-purple/30 bg-accent-purple/10',
+  'ai-inference': 'text-accent-cyan border-accent-cyan/30 bg-accent-cyan/10',
+  'system-tools': 'text-accent-mint border-accent-mint/30 bg-accent-mint/10',
+  'fullstack': 'text-accent-amber border-accent-amber/30 bg-accent-amber/10',
+};
+
+const categoryColor = categoryColors[category as keyof typeof categoryColors];
+---
+
+<div class="glass-panel group glow-hover flex flex-col h-full overflow-hidden transition-all duration-300 relative">
+  <!-- Top Accent Line -->
+  <div class={`absolute top-0 left-0 w-full h-1 ${categoryColor.split(' ')[0].replace('text-', 'bg-')} opacity-50 group-hover:opacity-100 transition-opacity`}></div>
+  
+  <div class="p-6 flex flex-col h-full">
+    <!-- Header -->
+    <div class="flex justify-between items-start mb-4">
+      <span class={`text-xs font-code px-2 py-1 rounded border ${categoryColor}`}>
+        {category}
+      </span>
+      <div class="flex gap-2">
+        {githubUrl && (
+          <a href={githubUrl} target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent-cyan transition-colors" aria-label="GitHub">
+            <Github class="w-5 h-5" />
+          </a>
+        )}
+        {demoUrl && (
+          <a href={demoUrl} target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent-cyan transition-colors" aria-label="Live Demo">
+            <ExternalLink class="w-5 h-5" />
+          </a>
+        )}
+      </div>
+    </div>
+    
+    <!-- Title & Description -->
+    <h3 class="text-xl font-heading font-bold text-text-primary mb-2 group-hover:text-accent-cyan transition-colors">
+      <a href={`/projects/${project.id}`}>
+        {title}
+      </a>
+    </h3>
+    <p class="text-text-secondary text-sm mb-6 flex-grow">
+      {description}
+    </p>
+    
+    <!-- Metrics (if any) -->
+    {metrics && (
+      <div class="grid grid-cols-2 gap-2 mb-6 p-3 rounded-lg bg-bg-secondary/50 border border-border-subtle/50">
+        {Object.entries(metrics).slice(0, 2).map(([key, value]) => (
+          <div class="flex flex-col">
+            <span class="text-[10px] text-text-muted font-code uppercase tracking-wider">{key}</span>
+            <span class="text-sm text-text-primary font-medium">{value}</span>
+          </div>
+        ))}
+      </div>
+    )}
+    
+    <!-- Technologies -->
+    <div class="flex flex-wrap gap-2 mb-6">
+      {technologies.slice(0, 4).map((tech) => (
+        <span class="text-xs text-text-secondary font-code bg-bg-primary border border-border-subtle px-2 py-1 rounded">
+          {tech}
+        </span>
+      ))}
+      {technologies.length > 4 && (
+        <span class="text-xs text-text-muted font-code px-1 py-1">
+          +{technologies.length - 4}
+        </span>
+      )}
+    </div>
+    
+    <!-- CTA -->
+    <div class="mt-auto pt-4 border-t border-border-subtle/50">
+      <a href={`/projects/${project.id}`} class="inline-flex items-center gap-2 text-sm text-accent-cyan font-medium group/link">
+        Ver Detalles
+        <ArrowRight class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+      </a>
+    </div>
+  </div>
+</div>
+

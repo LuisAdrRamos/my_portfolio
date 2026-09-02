@@ -1,5 +1,7 @@
 ---
-import { Github, Linkedin, Mail, Key } from 'lucide-react';
+import { Mail, Key } from '@lucide/astro';
+import Github from '../icons/Github.astro';
+import Linkedin from '../icons/Linkedin.astro';
 
 const gitSha = import.meta.env.PUBLIC_GIT_SHA || 'dev';
 const currentYear = new Date().getFullYear();
@@ -19,13 +21,13 @@ const currentYear = new Date().getFullYear();
       <!-- Social Links -->
       <div class="flex justify-center space-x-6">
         <a href="https://github.com/tu-usuario" target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-cyan transition-colors" aria-label="GitHub">
-          <Github className="w-6 h-6" />
+          <Github class="w-6 h-6" />
         </a>
         <a href="https://linkedin.com/in/tu-perfil" target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-cyan transition-colors" aria-label="LinkedIn">
-          <Linkedin className="w-6 h-6" />
+          <Linkedin class="w-6 h-6" />
         </a>
         <a href="mailto:tu-correo@ejemplo.com" class="text-text-secondary hover:text-accent-cyan transition-colors" aria-label="Email">
-          <Mail className="w-6 h-6" />
+          <Mail class="w-6 h-6" />
         </a>
       </div>
 
@@ -49,3 +51,6 @@ const currentYear = new Date().getFullYear();
     </div>
   </div>
 </footer>
+
+
+

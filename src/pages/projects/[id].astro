@@ -1,0 +1,139 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/astro/Navbar.astro';
+import Footer from '../../components/astro/Footer.astro';
+import { ArrowLeft, ExternalLink, Calendar } from '@lucide/astro';
+import Github from '../../components/icons/Github.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { title, description, category, date, technologies, githubUrl, demoUrl, metrics, problem, architecture } = project.data;
+const { Content } = await render(project);
+
+// Format date
+const formattedDate = new Date(date).toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+});
+---
+
+<BaseLayout title={`${title} | Proyectos`}>
+  <Navbar />
+  
+  <main class="flex-grow pt-24 pb-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Back Link -->
+      <a href="/#projects" class="inline-flex items-center gap-2 text-text-muted hover:text-accent-cyan transition-colors font-code text-sm mb-8">
+        <ArrowLeft class="w-4 h-4" />
+        cd ../
+      </a>
+
+      <!-- Header -->
+      <header class="mb-12">
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+          <span class="px-3 py-1 rounded bg-bg-secondary border border-border-subtle text-accent-cyan font-code text-xs">
+            {category}
+          </span>
+          <div class="flex items-center gap-2 text-text-muted text-sm">
+            <Calendar class="w-4 h-4" />
+            <time datetime={date.toISOString()}>{formattedDate}</time>
+          </div>
+        </div>
+        
+        <h1 class="text-4xl md:text-5xl font-heading font-bold text-text-primary mb-6">
+          {title}
+        </h1>
+        
+        <p class="text-xl text-text-secondary leading-relaxed mb-8">
+          {description}
+        </p>
+
+        <!-- Links -->
+        <div class="flex gap-4">
+          {githubUrl && (
+            <a href={githubUrl} target="_blank" rel="noopener noreferrer" class="magnetic-btn flex items-center gap-2 bg-text-primary text-bg-primary px-5 py-2.5 rounded-lg font-medium hover:bg-text-secondary transition-colors">
+              <Github class="w-5 h-5" />
+              Ver Código
+            </a>
+          )}
+          {demoUrl && (
+            <a href={demoUrl} target="_blank" rel="noopener noreferrer" class="magnetic-btn flex items-center gap-2 glass-panel hover:bg-white/10 text-text-primary px-5 py-2.5 rounded-lg font-medium transition-colors">
+              <ExternalLink class="w-5 h-5" />
+              Live Demo
+            </a>
+          )}
+        </div>
+      </header>
+
+      <hr class="border-border-default mb-12" />
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main Content -->
+        <div class="lg:col-span-2 prose prose-invert prose-cyan max-w-none prose-headings:font-heading prose-a:text-accent-cyan hover:prose-a:text-accent-mint">
+          
+          {problem && (
+            <div class="mb-8 p-6 rounded-xl bg-accent-amber/5 border border-accent-amber/20">
+              <h3 class="text-accent-amber font-heading text-lg font-bold mb-2 flex items-center gap-2 mt-0">
+                <span class="text-xl">⚠️</span> El Problema
+              </h3>
+              <p class="text-text-secondary m-0">{problem}</p>
+            </div>
+          )}
+
+          {architecture && (
+            <div class="mb-8 p-6 rounded-xl bg-accent-cyan/5 border border-accent-cyan/20">
+              <h3 class="text-accent-cyan font-heading text-lg font-bold mb-2 flex items-center gap-2 mt-0">
+                <span class="text-xl">🏗️</span> Arquitectura
+              </h3>
+              <p class="text-text-secondary m-0">{architecture}</p>
+            </div>
+          )}
+
+          <Content />
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-8">
+          <!-- Technologies -->
+          <div class="glass-panel p-6">
+            <h3 class="text-text-primary font-heading font-bold mb-4">Stack Tecnológico</h3>
+            <div class="flex flex-wrap gap-2">
+              {technologies.map((tech) => (
+                <span class="px-2.5 py-1 text-sm font-code text-text-secondary bg-bg-primary border border-border-subtle rounded">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <!-- Metrics -->
+          {metrics && (
+            <div class="glass-panel p-6">
+              <h3 class="text-text-primary font-heading font-bold mb-4">Métricas Clave</h3>
+              <div class="space-y-4">
+                {Object.entries(metrics).map(([key, value]) => (
+                  <div class="flex flex-col border-b border-border-subtle pb-3 last:border-0 last:pb-0">
+                    <span class="text-xs text-text-muted font-code uppercase tracking-wider">{key}</span>
+                    <span class="text-lg text-accent-cyan font-medium">{value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

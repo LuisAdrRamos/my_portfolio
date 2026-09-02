@@ -1,0 +1,143 @@
+---
+import { Code2, Cpu, Activity, Database, Server, Terminal } from '@lucide/astro';
+import Github from '../icons/Github.astro';
+
+const coreStack = [
+  "Python", "Django", "Linux", "SQL", "Docker", "Git", "REST APIs"
+];
+
+const aiLab = [
+  { label: "VRAM", value: "16GB GDDR6" },
+  { label: "Backend", value: "ROCm/Vulkan" },
+  { label: "Format", value: "GGUF / EXL2" },
+];
+---
+
+<section id="experience" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="mb-12">
+    <h2 class="text-3xl font-heading font-bold text-text-primary flex items-center gap-2">
+      <Terminal class="w-8 h-8 text-accent-cyan" />
+      <span>System Telemetry</span>
+    </h2>
+    <p class="text-text-secondary mt-2">Visión general de infraestructura y stack tecnológico.</p>
+  </div>
+
+  <!-- Asymmetric Bento Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-6 auto-rows-[minmax(180px,auto)]">
+    
+    <!-- 1x1: Rol Actual -->
+    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-1 md:row-span-1">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <Server class="w-6 h-6 text-accent-mint" />
+          <span class="text-xs font-code text-accent-mint px-2 py-1 rounded bg-accent-mint/10 border border-accent-mint/20">Active</span>
+        </div>
+        <h3 class="text-text-primary font-medium text-lg">ICT Assistant</h3>
+        <p class="text-text-secondary text-sm mt-1">@ Instituto Libertad</p>
+      </div>
+      <div class="mt-4">
+        <p class="text-xs text-text-muted font-code">Uptime: 2024 - Present</p>
+      </div>
+    </div>
+
+    <!-- 2x1: Core Stack -->
+    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-2 md:row-span-1">
+      <div class="flex items-center gap-3 mb-4">
+        <Code2 class="w-6 h-6 text-accent-cyan" />
+        <h3 class="text-text-primary font-medium text-lg">Core Dependencies</h3>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-auto">
+        {coreStack.map(tech => (
+          <span class="px-3 py-1.5 text-xs font-code text-text-secondary bg-bg-secondary rounded border border-border-subtle group-hover:border-accent-cyan/30 transition-colors">
+            {tech}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- 1x2: AI Lab -->
+    <div class="glass-panel p-6 flex flex-col group glow-hover md:col-span-1 md:row-span-2 relative overflow-hidden">
+      <!-- Decorative background -->
+      <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-accent-purple/5 rounded-full blur-2xl group-hover:bg-accent-purple/10 transition-colors"></div>
+      
+      <div class="flex items-center justify-between mb-6 relative z-10">
+        <Cpu class="w-6 h-6 text-accent-purple" />
+        <span class="text-xs font-code text-accent-purple px-2 py-1 rounded bg-accent-purple/10 border border-accent-purple/20">Local Inference</span>
+      </div>
+      
+      <h3 class="text-text-primary font-medium text-lg relative z-10 mb-4">AI Research Lab</h3>
+      
+      <div class="space-y-4 relative z-10 mt-auto">
+        {aiLab.map(item => (
+          <div class="flex flex-col">
+            <span class="text-xs text-text-muted font-code mb-1">{item.label}</span>
+            <span class="text-sm text-text-primary font-medium border-l-2 border-accent-purple pl-2">{item.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 1x1: Hardware -->
+    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-1 md:row-span-1">
+      <div class="flex items-center gap-3 mb-4">
+        <Database class="w-6 h-6 text-accent-amber" />
+        <h3 class="text-text-primary font-medium">Hardware Specs</h3>
+      </div>
+      <div class="mt-auto space-y-2 font-code text-sm">
+        <div class="flex justify-between items-center pb-2 border-b border-border-subtle">
+          <span class="text-text-muted">GPU</span>
+          <span class="text-accent-cyan">RX 9060 XT</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-text-muted">Arch</span>
+          <span class="text-text-secondary">RDNA 4</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1x1: Repos -->
+    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-1 md:row-span-1 bg-gradient-to-br from-white/5 to-transparent">
+      <div class="flex justify-between items-start mb-4">
+        <div class="p-3 bg-bg-secondary rounded-lg border border-border-subtle group-hover:border-accent-cyan/50 transition-colors">
+          <Github class="w-6 h-6 text-text-primary" />
+        </div>
+      </div>
+      <div>
+        <h3 class="text-text-primary font-medium text-lg">Open Source</h3>
+        <a href="https://github.com/tu-usuario" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm text-accent-cyan mt-2 hover:underline">
+          Ver repositorios ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- 2x1: Uptime/Status -->
+    <div class="glass-panel p-6 flex flex-col justify-center group glow-hover md:col-span-2 md:row-span-1 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-1 h-full bg-accent-mint"></div>
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="text-text-primary font-medium text-lg flex items-center gap-2">
+            <Activity class="w-5 h-5 text-accent-mint" />
+            System Status
+          </h3>
+          <p class="text-text-secondary text-sm mt-1">Todos los sistemas operativos. Infraestructura estable.</p>
+        </div>
+        
+        <div class="flex flex-col items-start sm:items-end font-code text-sm space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="text-text-muted">Load Avg:</span>
+            <span class="text-text-primary">0.14, 0.22, 0.18</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-text-muted">Memory:</span>
+            <span class="text-text-primary">32GB RAM / 16GB VRAM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+

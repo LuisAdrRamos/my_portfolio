@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+import { Terminal } from '@lucide/astro';
+
+const projects = await getCollection('projects');
+
+// Ordenar por fecha (más recientes primero)
+const sortedProjects = projects.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+---
+
+<section id="projects" class="py-24 bg-bg-secondary/30 relative">
+  <!-- Decorative top border -->
+  <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-cyan/30 to-transparent"></div>
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      <div>
+        <h2 class="text-3xl font-heading font-bold text-text-primary flex items-center gap-2">
+          <Terminal class="w-8 h-8 text-accent-cyan" />
+          <span>System Architecture & Tools</span>
+        </h2>
+        <p class="text-text-secondary mt-2 max-w-2xl">
+          Selección de proyectos destacados resolviendo problemas de infraestructura, rendimiento e inferencia local.
+        </p>
+      </div>
+      
+      <!-- Este botón podría abrir el GitHub del usuario -->
+      <a href="https://github.com/tu-usuario" target="_blank" rel="noopener noreferrer" class="text-sm font-code text-accent-cyan hover:text-white transition-colors border border-accent-cyan/30 hover:border-accent-cyan px-4 py-2 rounded-lg inline-flex self-start md:self-auto">
+        git log --all
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {sortedProjects.map(project => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  </div>
+</section>
+

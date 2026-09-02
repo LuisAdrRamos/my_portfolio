@@ -1,0 +1,18 @@
+---
+import Terminal from '../react/Terminal';
+import { Terminal as TerminalIcon } from '@lucide/astro';
+---
+
+<section id="terminal" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-heading font-bold text-text-primary flex items-center justify-center gap-2">
+        <TerminalIcon class="w-8 h-8 text-accent-cyan" />
+        <span>Interactive Shell</span>
+      </h2>
+      <p class="text-text-secondary mt-2">Ejecuta comandos para explorar mi perfil técnico.</p>
+    </div>
+    
+    <Terminal client:idle />
+  </div>
+</section>

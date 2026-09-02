@@ -13,7 +13,7 @@ const projectsCollection = defineCollection({
     githubUrl: z.string().url(),
     demoUrl: z.string().url().optional(),
     huggingfaceUrl: z.string().url().optional(),
-    metrics: z.record(z.string()).optional(),
+    metrics: z.record(z.string(), z.string()).optional(),
     image: z.string().optional(),
     problem: z.string().optional(),
     architecture: z.string().optional(),
