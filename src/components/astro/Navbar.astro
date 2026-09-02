@@ -1,0 +1,90 @@
+---
+import { Menu, X, Terminal } from 'lucide-react';
+---
+
+<nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-x-0 rounded-none bg-bg-primary/80">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center gap-2">
+        <Terminal className="w-6 h-6 text-accent-cyan" />
+        <a href="#" class="font-heading font-bold text-lg text-text-primary tracking-tight">
+          L.A.R. <span class="text-accent-cyan opacity-80">_</span>
+        </a>
+      </div>
+      
+      <!-- Desktop Menu -->
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-8">
+          <a href="#about" class="text-text-secondary hover:text-accent-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">~/about</a>
+          <a href="#projects" class="text-text-secondary hover:text-accent-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">~/projects</a>
+          <a href="#benchmarks" class="text-text-secondary hover:text-accent-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">~/benchmarks</a>
+          <a href="#experience" class="text-text-secondary hover:text-accent-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">~/experience</a>
+        </div>
+      </div>
+      
+      <!-- Contact Button -->
+      <div class="hidden md:block">
+        <a href="#contact" class="magnetic-btn border border-accent-cyan text-accent-cyan hover:bg-accent-cyan/10 px-4 py-2 rounded-md text-sm font-code transition-colors inline-block">
+          ./contact.sh
+        </a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="-mr-2 flex md:hidden">
+        <button type="button" id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-text-secondary hover:text-white hover:bg-bg-elevated focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent-cyan" aria-controls="mobile-menu" aria-expanded="false">
+          <span class="sr-only">Abrir menú principal</span>
+          <!-- Icon when menu is closed -->
+          <svg class="block h-6 w-6" id="icon-menu" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Icon when menu is open -->
+          <svg class="hidden h-6 w-6" id="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="md:hidden hidden bg-bg-elevated/95 backdrop-blur-md border-b border-border-default" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a href="#about" class="text-text-primary hover:bg-bg-secondary hover:text-accent-cyan block px-3 py-2 rounded-md text-base font-medium">~/about</a>
+      <a href="#projects" class="text-text-primary hover:bg-bg-secondary hover:text-accent-cyan block px-3 py-2 rounded-md text-base font-medium">~/projects</a>
+      <a href="#benchmarks" class="text-text-primary hover:bg-bg-secondary hover:text-accent-cyan block px-3 py-2 rounded-md text-base font-medium">~/benchmarks</a>
+      <a href="#experience" class="text-text-primary hover:bg-bg-secondary hover:text-accent-cyan block px-3 py-2 rounded-md text-base font-medium">~/experience</a>
+      <a href="#contact" class="text-accent-cyan block px-3 py-2 rounded-md text-base font-medium border border-accent-cyan/30 mt-4">./contact.sh</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu toggle logic
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconMenu = document.getElementById('icon-menu');
+  const iconClose = document.getElementById('icon-close');
+  
+  if (btn && menu && iconMenu && iconClose) {
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', (!isExpanded).toString());
+      menu.classList.toggle('hidden');
+      iconMenu.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
+    });
+
+    // Close menu when clicking a link
+    const links = menu.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        btn.setAttribute('aria-expanded', 'false');
+        menu.classList.add('hidden');
+        iconMenu.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      });
+    });
+  }
+</script>

@@ -1,0 +1,51 @@
+---
+import { Github, Linkedin, Mail, Key } from 'lucide-react';
+
+const gitSha = import.meta.env.PUBLIC_GIT_SHA || 'dev';
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-border-default bg-bg-primary mt-20" id="contact">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+      
+      <!-- Brand & Copyright -->
+      <div class="flex flex-col space-y-2 text-center md:text-left">
+        <span class="font-heading font-bold text-lg text-text-primary">Luis Adrián Ramos</span>
+        <span class="text-sm text-text-secondary">Backend Developer & Local AI Engineer</span>
+        <span class="text-xs text-text-muted mt-2">&copy; {currentYear}. Todos los derechos reservados.</span>
+      </div>
+
+      <!-- Social Links -->
+      <div class="flex justify-center space-x-6">
+        <a href="https://github.com/tu-usuario" target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-cyan transition-colors" aria-label="GitHub">
+          <Github className="w-6 h-6" />
+        </a>
+        <a href="https://linkedin.com/in/tu-perfil" target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-cyan transition-colors" aria-label="LinkedIn">
+          <Linkedin className="w-6 h-6" />
+        </a>
+        <a href="mailto:tu-correo@ejemplo.com" class="text-text-secondary hover:text-accent-cyan transition-colors" aria-label="Email">
+          <Mail className="w-6 h-6" />
+        </a>
+      </div>
+
+      <!-- Technical Status -->
+      <div class="flex flex-col items-center md:items-end space-y-2 text-xs font-code text-text-muted">
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-mint opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-accent-mint"></span>
+          </span>
+          <span>System Status: Online</span>
+        </div>
+        <div>
+          <span>Build: <span class="text-text-secondary">{gitSha.substring(0, 7)}</span></span>
+        </div>
+        <div>
+          <span>Construido con Astro + React + ☕</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</footer>

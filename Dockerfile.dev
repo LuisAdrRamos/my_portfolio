@@ -1,0 +1,10 @@
+FROM node:20-alpine
+WORKDIR /app
+RUN apk add --no-cache libc6-compat
+COPY package.json package-lock.json* ./
+# Ejecutamos npm install si existe el package.json
+RUN if [ -f package.json ]; then npm install; fi
+EXPOSE 4321
+ENV HOST=0.0.0.0
+ENV PORT=4321
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

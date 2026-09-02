@@ -1,0 +1,193 @@
+1. Stack Tecnológico y Justificación
+2. Sistema de Diseño y Estética Visual
+Para reflejar un perfil de Backend & Local AI, el diseño debe alejarse de la típica plantilla genérica y sentirse como un dashboard de telemetría de sistemas:
+Paleta de Color Base: Estilo Dark Matrix / Tokyo Night:
+Fondo: #0b0f19 (azul petróleo muy profundo) o #0d1117 (GitHub Dark).
+Bordes y separadores: #1e293b con toques sutiles de border-slate-800.
+Acentos primarios: Cian/Menta (#38bdf8 o #2dd4bf) para destacar métricas de sistemas, y Púrpura eléctrico (#a855f7) para IA/Modelos.
+Contraste y Estructura:
+Bento Grid: Estructura modular de cajas asimétricas para resumir áreas clave de un vistazo (rol actual en Instituto Libertad, stack backend, hardware lab, repositorios destacados).
+Badges técnicos de bajo nivel: Etiquetas con formato de flags de compilación o memoria (ej. KV-Cache: 4-bit, Throughput: 42 t/s, Quant: GGUF Q4_K_M).
+3. Arquitectura de Información (Estructura de Secciones)
+El sitio será una Single Page Application enriquecida con rutas detalladas para proyectos (o arquitectura de página larga con navegación por anclas y subpáginas de casos de estudio):
+┌─────────────────────────────────────────────────────────────┐
+│ 1. HERO SECTION                                             │
+│    Nombre, rol (Backend + Local AI), formación EPN,         │
+│    Call-to-Actions (GitHub, CV, Contacto, LinkedIn)         │
+├─────────────────────────────────────────────────────────────┤
+│ 2. TELEMETRÍA / BENTO GRID OVERVIEW                         │
+│    - Rol actual: ICT Assistant @ Instituto Libertad         │
+│    - Core Stack: Python, Django, Linux, SQL                 │
+│    - AI Lab: Inferencia local, cuantización, CUDA           │
+├─────────────────────────────────────────────────────────────┤
+│ 3. SHOWCASE DE PROYECTOS (Ingeniería & Modelos)             │
+│    Fichas con problema, arquitectura backend, métricas      │
+│    de desempeño, badges de stack y enlaces directos a Git/HF│
+├─────────────────────────────────────────────────────────────┤
+│ 4. LOCAL AI BENCHMARKS & HARDWARE LAB (Widget Interactivo)  │
+│    Comparativa visual de cuantizaciones (FP16 vs Q4_K_M),   │
+│    consumo de VRAM/RAM y tokens/segundo en tu entorno local │
+├─────────────────────────────────────────────────────────────┤
+│ 5. EXPERIENCIA Y TRAYECTORIA ACADÉMICA                      │
+│    - Instituto Libertad (Infraestructura, APIs, TICs)       │
+│    - Escuela Politécnica Nacional - ESFOT                   │
+├─────────────────────────────────────────────────────────────┤
+│ 6. FOOTER TÉCNICO                                           │
+│    Enlaces PGP/SSH (opcional), estado de servicios, Git SHA │
+└─────────────────────────────────────────────────────────────┘
+4. Modelado de Datos (Astro Content Collections)
+Una de las mayores ventajas de Astro es manejar los proyectos y experiencias como archivos Markdown/MDX respaldados por esquemas validados con Zod. Esto permite añadir o actualizar proyectos en segundos sin tocar código visual.
+Esquema propuesto (src/content/config.ts):
+TypeScript
+import { defineCollection, z } from 'astro:content';
+
+const projectsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    category: z.enum(['backend', 'ai-inference', 'system-tools', 'fullstack']),
+    featured: z.boolean().default(false),
+    date: z.date(),
+    technologies: z.array(z.string()),
+    githubUrl: z.string().url(),
+    demoUrl: z.string().url().optional(),
+    huggingfaceUrl: z.string().url().optional(),
+    metrics: z.record(z.string()).optional(), // ej. { "Latency": "18ms", "VRAM": "5.2 GB", "Speed": "38 t/s" }
+  }),
+});
+
+export const collections = {
+  projects: projectsCollection,
+};
+5. Componentes Clave: Cuándo usar Astro vs. Cuándo usar React
+Astro (.astro - 0 KB de JS enviado al navegador):
+Navbar.astro / Footer.astro: Navegación estática.
+Hero.astro: Tu presentación principal, foto y enlaces.
+ProjectCard.astro: Renderizado estático de cada proyecto desde la colección.
+ExperienceTimeline.astro: Línea de tiempo de carrera y formación EPN.
+React (.tsx - Islas interactivas hidratadas bajo demanda):
+TerminalEmulator.tsx (client:idle): Una pequeña terminal interactiva simulada donde reclutadores o devs puedan teclear comandos (help, skills, contact, benchmarks).
+BenchmarkViewer.tsx (client:visible): Un selector o slider interactivo donde el usuario elija un modelo (ej. Llama-3-8B, Mistral) y vea gráficas animadas comparando uso de VRAM y velocidad según el método de cuantización (FP16 vs GGUF vs EXL2).
+6. Estructura de Directorios del Proyecto
+Plaintext
+portfolio/
+├── public/
+│   ├── favicon.svg
+│   └── cv-luis-adrian-ramos.pdf
+├── src/
+│   ├── assets/                # Imágenes optimizadas por Astro
+│   ├── components/
+│   │   ├── astro/             # Componentes estáticos (0 JS)
+│   │   │   ├── Hero.astro
+│   │   │   ├── BentoGrid.astro
+│   │   │   ├── ProjectCard.astro
+│   │   │   └── Timeline.astro
+│   │   └── react/             # Islas dinámicas
+│   │       ├── Terminal.tsx
+│   │       └── BenchmarkViewer.tsx
+│   ├── content/
+│   │   ├── config.ts          # Validaciones Zod de colecciones
+│   │   └── projects/          # Proyectos en Markdown (.md / .mdx)
+│   │       ├── local-llm-quantizer.md
+│   │       ├── scalable-rest-api.md
+│   │       └── network-monitoring-tool.md
+│   ├── layouts/
+│   │   └── BaseLayout.astro   # Metatags SEO, OpenGraph, fuentes
+│   ├── pages/
+│   │   ├── index.astro        # Portafolio principal
+│   │   └── projects/[slug].astro # Detalle en profundidad de cada proyecto
+│   └── styles/
+│       └── global.css         # Directivas Tailwind y estilos de scrollbars
+├── astro.config.mjs
+├── tailwind.config.mjs
+└── tsconfig.json
+
+
+Usar Docker es una excelente decisión de ingeniería, especialmente para un perfil orientado a Backend y DevOps.
+Aísla por completo las versiones de Node.js, npm/pnpm y los cientos de megas de node_modules dentro de un contenedor Linux, manteniendo tu sistema operativo limpio y garantizando que tu entorno de desarrollo sea exactamente reproducible en cualquier máquina.
+¿Cómo funciona la arquitectura con Docker en desarrollo?
+Para que programar dentro de un contenedor no sea lento ni engorroso, se utiliza el patrón de Bind Mounts + Hot Reload:
+Tu editor (VS Code / Neovim / Cursor) corre localmente en tu sistema operativo, donde tienes tu configuración y extensiones.
+El código fuente vive en tu máquina y se "monta" como un volumen en /app dentro del contenedor.
+node_modules vive en un volumen anónimo dentro de Docker: esto evita que los binarios compilados de Linux choquen con tu host y mantiene tu carpeta local libre de dependencias pesadas.
+Vite / Astro Dev Server corre en el contenedor y escucha cambios en tiempo real en el puerto 4321.
+┌─────────────────────────────────────────────────────────────┐
+│ TU HOST (Linux / Windows / macOS)                           │
+│  - Editor de código (VS Code, Neovim)                       │
+│  - Archivos de código (src/, astro.config.mjs, etc.)        │
+└──────────────┬───────────────────────────────▲──────────────┘
+               │ (Volumen montado)             │ (Puerto 4321)
+┌──────────────▼───────────────────────────────┴──────────────┐
+│ CONTENEDOR DOCKER (node:20-alpine)                          │
+│  - Astro CLI + Vite Dev Server                              │
+│  - node_modules (Aislado dentro de Docker)                  │
+│  - HMR (Hot Module Reload) instantáneo                      │
+└─────────────────────────────────────────────────────────────┘
+La estructura de configuración Docker que usaremos
+Solo necesitaremos dos archivos en la raíz del proyecto:
+1. Dockerfile.dev
+Utiliza una imagen ultra-ligera (alpine), fija la versión de Node y expone el host para que Astro pueda responder fuera del contenedor:
+Dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Instalar dependencias necesarias para compilar módulos si hiciera falta
+RUN apk add --no-cache libc6-compat
+
+# Copiar manifiestos de paquetes
+COPY package.json package-lock.json* ./
+
+# Instalar dependencias dentro de la imagen
+RUN npm install
+
+# Exponer el puerto por defecto de Astro
+EXPOSE 4321
+
+# Habilitar acceso externo al servidor de desarrollo
+ENV HOST=0.0.0.0
+ENV PORT=4321
+
+# Comando por defecto: arrancar servidor con hot-reload
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+2. docker-compose.yml
+Define el servicio y orquesta los volúmenes para que cualquier cambio en tu código se refleje al segundo en tu navegador:
+YAML
+version: '3.8'
+
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: portfolio-dev
+    ports:
+      - "4321:4321"
+    volumes:
+      # Sincroniza tus cambios locales con el contenedor
+      - .:/app
+      # Volumen anónimo para que node_modules se quede aislado dentro de Docker
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+Flujo de trabajo en tu día a día
+Con esta configuración, tu flujo será minimalista y nunca tendrás que instalar Node ni librerías frontend en tu sistema:
+Levantar el portafolio:
+Bash
+docker compose up
+Abres http://localhost:4321 en tu navegador y comienzas a editar.
+Agregar una nueva librería (ej. Lucide o Framer Motion):
+Bash
+docker compose exec portfolio npm install lucide-react framer-motion
+Detener el contenedor:
+Bash
+docker compose down
+Resumen del Plan de Arquitectura Cerrado
+Stack: Astro (SSG) + Tailwind CSS + React (TSX).
+Entorno: Dockerizado al 100% con docker-compose (cero residuos en tu PC local).
+Secciones estrella:
+Bento Grid con presentación técnica, formación EPN y rol actual.
+Tarjetas de proyectos adaptadas con enlaces a repositorios y métricas de ingeniería (desempeño, seguridad, arquitectura).
+Mini-Terminal Interactiva (React): Para comandos rápidos y navegación por teclado.
+Comparador de Métricas de IA Local (React): Selector visual con sliders de cuantizaciones (FP16, GGUF Q4/Q8, EXL2) y telemetría de VRAM/velocidad.
