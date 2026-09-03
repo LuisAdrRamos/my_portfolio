@@ -104,7 +104,7 @@ const Terminal = () => {
           <div className="text-text-secondary">
             <p>Initializing benchmarking module...</p>
             <p className="text-accent-amber mt-2">Hardware detected: AMD Radeon RX 9060 XT 16GB</p>
-            <p className="mt-2 text-text-muted">Check the upcoming Benchmarks section for detailed charts.</p>
+            <p className="mt-2 text-text-muted">Check the Benchmarks section below for detailed charts.</p>
           </div>
         );
         break;
@@ -214,6 +214,7 @@ const Terminal = () => {
             className="flex-1 bg-transparent border-none outline-none text-text-primary focus:ring-0 p-0 m-0 caret-accent-cyan"
             autoComplete="off"
             spellCheck="false"
+            aria-label="Terminal input"
             autoFocus
           />
         </form>

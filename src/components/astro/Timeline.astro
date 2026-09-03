@@ -1,0 +1,105 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Briefcase, GraduationCap, History } from '@lucide/astro';
+
+const timelineEntries = await getCollection('timeline');
+const sortedEntries = timelineEntries.sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id="experience" class="py-24 relative">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="mb-16">
+      <h2 class="text-3xl font-heading font-bold text-text-primary flex items-center gap-2">
+        <History class="w-8 h-8 text-text-primary" />
+        <span>Career Timeline</span>
+      </h2>
+      <p class="text-text-secondary mt-2">
+        Work experience and academic background.
+      </p>
+    </div>
+
+    <div class="relative">
+      <!-- Vertical connecting line -->
+      <div class="absolute left-8 top-0 bottom-0 w-px bg-border-subtle md:left-1/2 md:-ml-px"></div>
+
+      <div class="space-y-12">
+        {sortedEntries.map(async (entry, index) => {
+          const { Content } = await render(entry);
+          const isWork = entry.data.type === 'work';
+          const isEven = index % 2 === 0;
+          
+          return (
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group timeline-item opacity-0 translate-y-8 transition-all duration-700 ease-out">
+              
+              <!-- Icon Node -->
+              <div class="flex items-center justify-center w-16 h-16 rounded-full border-4 border-bg-primary bg-bg-secondary z-10 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shrink-0 shadow-lg transition-transform duration-300 group-hover:scale-110">
+                {isWork ? (
+                  <Briefcase class="w-6 h-6 text-accent-cyan" />
+                ) : (
+                  <GraduationCap class="w-6 h-6 text-accent-purple" />
+                )}
+              </div>
+
+              <!-- Content Card -->
+              <div class="w-[calc(100%-5rem)] md:w-[calc(50%-3rem)] glass-panel p-6 rounded-2xl border border-border-subtle hover:border-accent-cyan/30 transition-colors">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
+                  <h3 class="text-xl font-heading font-bold text-text-primary">
+                    {entry.data.role}
+                  </h3>
+                  <span class={`text-xs font-code px-3 py-1 rounded-full border bg-bg-primary ${isWork ? 'text-accent-cyan border-accent-cyan/20' : 'text-accent-purple border-accent-purple/20'}`}>
+                    {entry.data.date}
+                  </span>
+                </div>
+                
+                <h4 class="text-lg text-text-secondary font-medium mb-4">
+                  {entry.data.company}
+                </h4>
+                
+                <div class="text-text-muted text-sm mb-6 leading-relaxed">
+                  <Content />
+                </div>
+                
+                {entry.data.technologies.length > 0 && (
+                  <div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-border-subtle/50">
+                    {entry.data.technologies.map(tech => (
+                      <span class="px-2.5 py-1 text-xs font-code text-text-secondary bg-bg-primary border border-border-subtle rounded">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Intersection Observer for fade-in up animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('opacity-0', 'translate-y-8');
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach(item => observer.observe(item));
+  });
+</script>
