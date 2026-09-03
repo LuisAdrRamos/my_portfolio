@@ -1,5 +1,5 @@
 ---
-import { Menu, X, Terminal } from '@lucide/astro';
+import { Menu, X, Terminal, Sun, Moon } from '@lucide/astro';
 ---
 
 <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-x-0 rounded-none bg-bg-primary/80">
@@ -24,22 +24,32 @@ import { Menu, X, Terminal } from '@lucide/astro';
         </div>
       </div>
       
-      <!-- Contact Button -->
-      <div class="hidden md:block">
+      <!-- Right side: Contact + Theme Toggle -->
+      <div class="hidden md:flex items-center gap-3">
         <a href="#contact" class="magnetic-btn border border-accent-cyan text-accent-cyan hover:bg-accent-cyan/10 px-4 py-2 rounded-md text-sm font-code transition-colors inline-block">
           ./contact.sh
         </a>
+        
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" type="button" class="p-2 rounded-lg text-text-secondary hover:text-accent-cyan hover:bg-white/10 transition-all" aria-label="Toggle theme">
+          <Sun class="w-5 h-5 hidden" id="icon-sun" />
+          <Moon class="w-5 h-5" id="icon-moon" />
+        </button>
       </div>
 
-      <!-- Mobile menu button -->
-      <div class="-mr-2 flex md:hidden">
+      <!-- Mobile: Theme Toggle + Menu button -->
+      <div class="flex items-center gap-2 md:hidden">
+        <!-- Mobile Theme Toggle -->
+        <button type="button" id="theme-toggle-mobile" class="p-2 rounded-lg text-text-secondary hover:text-accent-cyan transition-all" aria-label="Toggle theme">
+          <Sun class="w-5 h-5 hidden" id="icon-sun-mobile" />
+          <Moon class="w-5 h-5" id="icon-moon-mobile" />
+        </button>
+        
         <button type="button" id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-text-secondary hover:text-white hover:bg-bg-elevated focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent-cyan" aria-controls="mobile-menu" aria-expanded="false">
-          <span class="sr-only">Abrir menú principal</span>
-          <!-- Icon when menu is closed -->
+          <span class="sr-only">Open main menu</span>
           <svg class="block h-6 w-6" id="icon-menu" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
-          <!-- Icon when menu is open -->
           <svg class="hidden h-6 w-6" id="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -61,7 +71,47 @@ import { Menu, X, Terminal } from '@lucide/astro';
 </nav>
 
 <script>
-  // Mobile menu toggle logic
+  // ─── Theme Toggle Logic ───
+  function updateThemeIcons(isLight: boolean) {
+    const sunIcon = document.getElementById('icon-sun');
+    const moonIcon = document.getElementById('icon-moon');
+    const sunIconMobile = document.getElementById('icon-sun-mobile');
+    const moonIconMobile = document.getElementById('icon-moon-mobile');
+
+    if (sunIcon && moonIcon) {
+      sunIcon.classList.toggle('hidden', !isLight);
+      moonIcon.classList.toggle('hidden', isLight);
+    }
+    if (sunIconMobile && moonIconMobile) {
+      sunIconMobile.classList.toggle('hidden', !isLight);
+      moonIconMobile.classList.toggle('hidden', isLight);
+    }
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isCurrentlyLight = html.classList.contains('light');
+
+    if (isCurrentlyLight) {
+      html.classList.remove('light');
+      localStorage.setItem('theme', 'dark');
+      updateThemeIcons(false);
+    } else {
+      html.classList.add('light');
+      localStorage.setItem('theme', 'light');
+      updateThemeIcons(true);
+    }
+  }
+
+  // Initialize icon state on load
+  const isLight = document.documentElement.classList.contains('light');
+  updateThemeIcons(isLight);
+
+  // Attach handlers
+  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+  document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
+
+  // ─── Mobile Menu Toggle Logic ───
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
   const iconMenu = document.getElementById('icon-menu');
@@ -76,7 +126,6 @@ import { Menu, X, Terminal } from '@lucide/astro';
       iconClose.classList.toggle('hidden');
     });
 
-    // Close menu when clicking a link
     const links = menu.querySelectorAll('a');
     links.forEach(link => {
       link.addEventListener('click', () => {
@@ -88,6 +137,3 @@ import { Menu, X, Terminal } from '@lucide/astro';
     });
   }
 </script>
-
-
-

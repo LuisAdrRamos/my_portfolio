@@ -1,10 +1,24 @@
 ---
-import { Code2, Cpu, Activity, Database, Server, Terminal } from '@lucide/astro';
+import { Code2, Cpu, Activity, Database, Server, Terminal, Music, Mountain, Gamepad2, Monitor } from '@lucide/astro';
 import Github from '../icons/Github.astro';
 
-const coreStack = [
-  "Python", "Django", "Linux", "SQL", "Docker", "Git", "REST APIs"
-];
+const techStack = {
+  "Backend & Frameworks": [
+    "Python", "Java", "Django", "FastAPI", "Node.js", "Express.js", "Spring Boot"
+  ],
+  "Databases": [
+    "PostgreSQL", "MariaDB", "MySQL", "SQLite", "MongoDB", "Supabase", "Firebase"
+  ],
+  "Frontend & Mobile": [
+    "TypeScript", "JavaScript", "React", "React Native", "Flutter", "HTML5"
+  ],
+  "AI & ML": [
+    "PyTorch", "TensorFlow", "Keras", "scikit-learn", "Pandas", "NumPy", "CUDA"
+  ],
+  "DevOps & Tools": [
+    "Docker", "Git", "Linux", "Postman", "Vercel", "Render"
+  ]
+};
 
 const aiLab = [
   { label: "VRAM", value: "16GB GDDR6" },
@@ -23,10 +37,10 @@ const aiLab = [
   </div>
 
   <!-- Asymmetric Bento Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-6 auto-rows-[minmax(180px,auto)]">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(180px,auto)]">
     
-    <!-- 1x1: Rol Actual -->
-    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-1 md:row-span-1">
+    <!-- 1x1: Current Role -->
+    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-1">
       <div>
         <div class="flex items-center justify-between mb-4">
           <Server class="w-6 h-6 text-accent-mint" />
@@ -40,24 +54,30 @@ const aiLab = [
       </div>
     </div>
 
-    <!-- 2x1: Core Stack -->
-    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-2 md:row-span-1">
+    <!-- 2x1: Full Tech Stack -->
+    <div class="glass-panel p-6 flex flex-col group glow-hover md:col-span-2">
       <div class="flex items-center gap-3 mb-4">
         <Code2 class="w-6 h-6 text-accent-cyan" />
-        <h3 class="text-text-primary font-medium text-lg">Core Dependencies</h3>
+        <h3 class="text-text-primary font-medium text-lg">Tech Stack</h3>
       </div>
-      <div class="flex flex-wrap gap-2 mt-auto">
-        {coreStack.map(tech => (
-          <span class="px-3 py-1.5 text-xs font-code text-text-secondary bg-bg-secondary rounded border border-border-subtle group-hover:border-accent-cyan/30 transition-colors">
-            {tech}
-          </span>
+      <div class="space-y-4 mt-auto">
+        {Object.entries(techStack).map(([category, techs]) => (
+          <div>
+            <p class="text-xs text-text-muted font-code mb-2 uppercase tracking-wider">{category}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {techs.map(tech => (
+                <span class="px-2.5 py-1 text-xs font-code text-text-secondary bg-bg-secondary rounded border border-border-subtle group-hover:border-accent-cyan/30 transition-colors">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </div>
 
     <!-- 1x2: AI Lab -->
     <div class="glass-panel p-6 flex flex-col group glow-hover md:col-span-1 md:row-span-2 relative overflow-hidden">
-      <!-- Decorative background -->
       <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-accent-purple/5 rounded-full blur-2xl group-hover:bg-accent-purple/10 transition-colors"></div>
       
       <div class="flex items-center justify-between mb-6 relative z-10">
@@ -78,7 +98,7 @@ const aiLab = [
     </div>
 
     <!-- 1x1: Hardware -->
-    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-1 md:row-span-1">
+    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-1">
       <div class="flex items-center gap-3 mb-4">
         <Database class="w-6 h-6 text-accent-amber" />
         <h3 class="text-text-primary font-medium">Hardware Specs</h3>
@@ -95,8 +115,26 @@ const aiLab = [
       </div>
     </div>
 
-    <!-- 1x1: Repos -->
-    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-1 md:row-span-1 bg-gradient-to-br from-white/5 to-transparent">
+    <!-- 1x1: Spotify Now Playing -->
+    <div class="glass-panel p-6 flex flex-col group glow-hover md:col-span-1 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-4">
+        <Music class="w-6 h-6 text-accent-mint" />
+        <h3 class="text-text-primary font-medium">Now Playing</h3>
+      </div>
+      <div class="mt-auto flex justify-center">
+        <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="block w-full">
+          <img 
+            src="https://novatorem-drab-beta.vercel.app/" 
+            alt="Spotify Currently Playing" 
+            class="w-full rounded-lg border border-border-subtle"
+            loading="lazy"
+          />
+        </a>
+      </div>
+    </div>
+
+    <!-- 1x1: GitHub Stats -->
+    <div class="glass-panel p-6 flex flex-col justify-between group glow-hover md:col-span-1 bg-gradient-to-br from-white/5 to-transparent">
       <div class="flex justify-between items-start mb-4">
         <div class="p-3 bg-bg-secondary rounded-lg border border-border-subtle group-hover:border-accent-cyan/50 transition-colors">
           <Github class="w-6 h-6 text-text-primary" />
@@ -110,27 +148,45 @@ const aiLab = [
       </div>
     </div>
 
-    <!-- 2x1: Uptime/Status -->
-    <div class="glass-panel p-6 flex flex-col justify-center group glow-hover md:col-span-2 md:row-span-1 relative overflow-hidden">
+    <!-- 1x1: GitHub Languages -->
+    <div class="glass-panel p-4 flex flex-col items-center justify-center group glow-hover md:col-span-1 overflow-hidden">
+      <img 
+        src="https://github-readme-stats.shion.dev/api/top-langs/?username=LuisAdrRamos&theme=transparent&hide_border=true&count_private=true&layout=compact&title_color=38bdf8&text_color=94a3b8" 
+        alt="Top Languages"
+        class="w-full max-w-[280px] rounded"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- 2x1: Beyond the Code -->
+    <div class="glass-panel p-6 flex flex-col justify-center group glow-hover md:col-span-2 relative overflow-hidden">
       <div class="absolute top-0 left-0 w-1 h-full bg-accent-mint"></div>
       
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h3 class="text-text-primary font-medium text-lg flex items-center gap-2">
-            <Activity class="w-5 h-5 text-accent-mint" />
-            System Status
-          </h3>
-          <p class="text-text-secondary text-sm mt-1">All systems operational. Infrastructure stable.</p>
-        </div>
-        
-        <div class="flex flex-col items-start sm:items-end font-code text-sm space-y-1">
-          <div class="flex items-center gap-2">
-            <span class="text-text-muted">Load Avg:</span>
-            <span class="text-text-primary">0.14, 0.22, 0.18</span>
+      <h3 class="text-text-primary font-medium text-lg flex items-center gap-2 mb-6">
+        <Activity class="w-5 h-5 text-accent-mint" />
+        Beyond the Code
+      </h3>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="flex items-start gap-3 p-3 rounded-lg bg-bg-secondary/50 border border-border-subtle/50">
+          <Mountain class="w-5 h-5 text-accent-mint shrink-0 mt-0.5" />
+          <div>
+            <p class="text-text-primary text-sm font-medium">Mountain & Trekking</p>
+            <p class="text-text-muted text-xs mt-1">Outdoor routes at altitude</p>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-text-muted">Memory:</span>
-            <span class="text-text-primary">32GB RAM / 16GB VRAM</span>
+        </div>
+        <div class="flex items-start gap-3 p-3 rounded-lg bg-bg-secondary/50 border border-border-subtle/50">
+          <Gamepad2 class="w-5 h-5 text-accent-purple shrink-0 mt-0.5" />
+          <div>
+            <p class="text-text-primary text-sm font-medium">Gaming & Modding</p>
+            <p class="text-text-muted text-xs mt-1">Immersive titles & complex mechanics</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-3 rounded-lg bg-bg-secondary/50 border border-border-subtle/50">
+          <Monitor class="w-5 h-5 text-accent-amber shrink-0 mt-0.5" />
+          <div>
+            <p class="text-text-primary text-sm font-medium">Hardware Lab</p>
+            <p class="text-text-muted text-xs mt-1">Benchmarks & kernel tuning</p>
           </div>
         </div>
       </div>
@@ -138,6 +194,3 @@ const aiLab = [
 
   </div>
 </section>
-
-
-
